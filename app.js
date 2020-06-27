@@ -7,7 +7,7 @@
    reaches the last question . 
 -Score: this should displays the total score. 
 
-1.But  on that will trigger to change the value of the question.
+1.But  on that will trigger to change the value of the question and choices.
 2.Determine the correct answer.
 3.The score will display if the answer is correct (increment) and will not change if its wrong.
 4.After determining the right or wrong question it will proceed to the next question.
@@ -23,6 +23,8 @@ let button1 = document.getElementById('a');
 let button2 = document.getElementById('b');
 let button3 = document.getElementById('c');
 let button4 = document.getElementById('d');
+let scoreSheet = document.getElementById('scoresheet');
+let score = 0;
 
 let myQuestions = [
     {
@@ -67,24 +69,24 @@ let questionIndex = 0;
 
 
 document.getElementById('startbtn').addEventListener('click', e =>{
-  renderQuestion();
+ 
   document.querySelector('.start').classList.add('hide');
   document.querySelector('.question-container1').classList.remove('hide');
   document.querySelector('.question-container1').classList.add('show');
-  
+  renderQuestion();
 });
 
 document.getElementById('button').addEventListener('click' , e => {
 
+   addScore = checkAnswer(e.target.id);
+   score += addScore;
+   scoreSheet.innerHTML = score;
 
    if (questionIndex < 3){
-    
     renderQuestion();
-    checkAnswer();
-    
-   }else{
+   } else {
     document.querySelector('.question-container1').classList.add('hide');
-    
+    document.querySelector('.question-container1').classList.remove('show');
    }
     
 })
@@ -93,7 +95,7 @@ function renderQuestion(){
 
   let show = document.getElementById('question');
   let q = myQuestions[questionIndex];
-  
+ 
     show.innerHTML = q.question;
     questionIndex++;
     console.log(questionIndex)
@@ -104,10 +106,17 @@ function renderQuestion(){
     button4.innerHTML = q.answers.d;
 }
 
-function checkAnswer(){
-    
-}
+function checkAnswer(answer){
+  let question = myQuestions[questionIndex - 1];
+  let correctAnswer = question.answers.correctAnswer;
 
+  if (answer === correctAnswer) {
+    return 1;
+  } else {
+    return 0;
+  }
+ 
+}
 
 
 //if button is pressed ! right move on
